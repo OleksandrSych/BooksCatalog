@@ -1,0 +1,24 @@
+﻿version: '3.0'
+services:
+   db:
+     image: mysql:8.0.26
+     command: --default-authentication-plugin=mysql_native_password
+     ports:
+       - "3306:3306"
+     environment:
+       MYSQL_ROOT_PASSWORD: 1234 
+       MYSQL_DATABASE: BooksDB
+     volumes:
+       - dbdata:/var/lib/mysql
+       - ./_MySQL_Init_Script:/docker-entrypoint-initdb.d
+     restart: always
+   booksapp:
+     depends_on:
+       - db
+     image: bookscatalog:runtime
+     build:
+       context: .
+     ports:
+       - "8090:80"
+volumes:
+    dbdata:

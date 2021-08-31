@@ -1,0 +1,62 @@
+<h1>Books catalog</h1>
+<input type="button" value="Add new book" class="btn btn-default btn-primary" (click)="add()" />
+<table *ngIf="tableMode; else create" class="table table-striped">
+  <thead>
+    <tr>
+      <td>Original Title</td>
+      <td>Author</td>
+      <td>ISBN10</td>
+      <td></td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let b of books">
+      <ng-template [ngIf]="book?.id != b.id" [ngIfElse]="edit">
+        <td>{{b?.originalTitle}}</td>
+        <td>{{b?.author}}</td>
+        <td>{{b?.isbn10}}</td>
+        <td>
+          <button class="btn btn-sm btn-primary" (click)="editBook(b)">Edit</button>
+          <button class="btn btn-sm btn-danger" (click)="delete(b)">Delete</button>
+        </td>
+      </ng-template>
+    </tr>
+  </tbody>
+</table>
+
+<!--Template for editing-->
+<ng-template #edit>
+  <td>
+    <input type="text" [(ngModel)]="book.originalTitle" class="form-control" />
+  </td>
+  <td>
+    <input type="text" [(ngModel)]="book.author" class="form-control" />
+  </td>
+  <td>
+    <input type="number" [(ngModel)]="book.isbn10" class="form-control" />
+  </td>
+  <td>
+    <input type="button" value="Save" (click)="save()" class="btn btn-sm btn-success" />
+    <input type="button" value="Cansel" (click)="cancel()" class="btn btn-sm btn-warning" />
+  </td>
+</ng-template>
+
+<!--Template for adding-->
+<ng-template #create>
+  <div class="form-group">
+    <label>Original Title</label>
+    <input type="text" [(ngModel)]="book.originalTitle" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label>Author</label>
+    <input type="text" [(ngModel)]="book.author" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label>ISBN10</label>
+    <input type="number" [(ngModel)]="book.isbn10" class="form-control" />
+  </div>
+  <div>
+    <input type="button" value="Save" (click)="save()" class="btn btn-success" />
+    <input type="button" value="Cansel" (click)="cancel()" class="btn btn-warning" />
+  </div>
+</ng-template>
