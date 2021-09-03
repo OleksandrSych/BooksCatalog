@@ -1,5 +1,6 @@
 <h1>Books catalog</h1>
 <input type="button" value="Add new book" class="btn btn-default btn-primary" (click)="add()" />
+<input type="button" value="Export to Excel" class="btn btn-default btn-primary" (click)="exportexcel()" />
 <table *ngIf="tableMode; else create" class="table table-striped">
   <thead>
     <tr>

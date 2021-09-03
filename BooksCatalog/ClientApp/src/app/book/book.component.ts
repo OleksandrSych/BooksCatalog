@@ -1,11 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { DataService } from "../data.service";
 import { Book } from "./book";
+import { DataService } from "../services/data.service";
+import { ExcelService } from "../services/excel.service";
 
 @Component({
   selector: 'app-book',
   templateUrl: './book.component.html',
-  providers: [DataService]
+  providers: [DataService, ExcelService]
 })
 export class BookComponent implements OnInit {
 
@@ -13,7 +14,7 @@ export class BookComponent implements OnInit {
   books: Book[];
   tableMode: boolean = true;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private excelService: ExcelService) { }
 
   ngOnInit() {
     this.loadBooks();
@@ -27,7 +28,7 @@ export class BookComponent implements OnInit {
   save() {
     if (this.book.id == null) {
       this.dataService.createBook(this.book)
-        .subscribe((data: Book) => this.books.push(data));
+        .subscribe((data: Book) => this.loadBooks());
     } else {
       this.dataService.updateBook(this.book)
         .subscribe(data => this.loadBooks());
@@ -49,4 +50,8 @@ export class BookComponent implements OnInit {
     this.cancel();
     this.tableMode = false;
   }
+  exportexcel(b: Book) {
+    this.excelService.exportexcel(this.books, 'BooksCatalog.xlsx');
+  }
+
 }

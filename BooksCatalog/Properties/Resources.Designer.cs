@@ -61,7 +61,7 @@ namespace BooksCatalog.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server=db;Database=BooksdbMYSQL;port=3306;User Id=root;password=1234.
+        ///   Looks up a localized string similar to Server=localhost;Database=BooksdbMYSQL;port=3306;User Id=root;password=1234.
         /// </summary>
         internal static string connectionString {
             get {

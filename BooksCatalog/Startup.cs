@@ -19,19 +19,31 @@ namespace BooksCatalog
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            _configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        {     
+           
             var connString = Properties.Resources.connectionString;
+
+            var host = _configuration["DBHOST"] ?? "localhost";
+            var port = _configuration["DBPORT"] ?? "3306";
+            var password = _configuration["MYSQL_PASSWORD"] ?? "1234";
+            var userid = _configuration["MYSQL_USER"] ?? "root";
+            var usersDataBase = _configuration["MYSQL_DATABASE"] ?? "BooksDB";
+
+            connString = $"server={host}; userid={userid};pwd={password};port={port};database={usersDataBase}";
+
             services.AddDbContext<ApplicationContext>(options => options.UseMySql(connString,
-                new MySqlServerVersion(new Version(8, 0, 26))));
+                    new MySqlServerVersion(new Version(8, 0, 26))));
 
             services.AddScoped<IBookRepository<Book, int>, BookRepository>();
             services.AddScoped<IBookService, BookService>();
