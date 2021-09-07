@@ -13,6 +13,7 @@ namespace BooksCatalog.Services
             _bookRepo = bookRepo;
         }
         public int Add(Book b) => _bookRepo.Add(b);
+        public int Add(Book[] b) => _bookRepo.Add(b);
 
         public int Delete(int id) => _bookRepo.Delete(id);
 

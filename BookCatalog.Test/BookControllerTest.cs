@@ -64,6 +64,17 @@ namespace BooksCatalog.Tests
             //Assert
             Assert.IsType<OkObjectResult>(result);
         }
+        [Fact]
+        public void GetAddBooksReturnsNotNull()
+        {
+            //Arrange
+            var mock = new Mock<IBookService>();
+            var controller = new BookController(mock.Object); 
+            //Act
+            var result = controller.AddBooks(GetTestBooks().ToArray());
+            //Assert
+            Assert.IsType<OkObjectResult>(result);
+        }
 
         [Fact]
         public void GetPostReturnsBadRequestObjectResult()

@@ -1,6 +1,8 @@
 <h1>Books catalog</h1>
-<input type="button" value="Add new book" class="btn btn-default btn-primary" (click)="add()" />
-<input type="button" value="Export to Excel" class="btn btn-default btn-primary" (click)="exportexcel()" />
+<input type="button" value="Add new book"    class="btn btn-default btn-primary" style="margin-right: 3.0em" (click)="add()" />
+<input type="button" value="Export to Excel" class="btn btn-default btn-primary" style="margin-right: 3.0em" (click)="exportexcel()" />
+<label for="excel_uploads" >Import from Excel</label>
+<input type="file" id="excel_uploads" (change)="onChange($event)" #inputFile accept=".xls, .xlsx">
 <table *ngIf="tableMode; else create" class="table table-striped">
   <thead>
     <tr>

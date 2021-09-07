@@ -30,7 +30,11 @@ namespace BooksCatalog.Repositories
             _ctx.Books.Add(book);
             return _ctx.SaveChanges();
         }
-
+        public int Add(Book[] book)
+        {
+            _ctx.Books.AddRange(book);
+            return _ctx.SaveChanges();
+        }
         public int Delete(int id)
         {
             var book = _ctx.Books.FirstOrDefault(b => b.Id == id);

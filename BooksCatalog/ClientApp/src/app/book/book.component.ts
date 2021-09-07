@@ -8,8 +8,8 @@ import { ExcelService } from "../services/excel.service";
   templateUrl: './book.component.html',
   providers: [DataService, ExcelService]
 })
-export class BookComponent implements OnInit {
 
+export class BookComponent implements OnInit {
   book: Book = new Book();
   books: Book[];
   tableMode: boolean = true;
@@ -54,4 +54,30 @@ export class BookComponent implements OnInit {
     this.excelService.exportexcel(this.books, 'BooksCatalog.xlsx');
   }
 
+  onChange(evt) {
+    const target: DataTransfer = <DataTransfer>(evt.target);
+    let data: Book[];
+    let isExcelFile = !!target.files[0].name.match(/(.xls|.xlsx)/);
+    if (isExcelFile) {
+      const reader: FileReader = new FileReader();
+      reader.onload = (e: any) => {
+        data = this.excelService.excelToObjArray(e.target.result);
+      };
+      reader.readAsBinaryString(target.files[0]);
+      reader.onloadend = (e) => {
+        var newBooks = new Array();
+        data.forEach(bookd => {
+          let book: Book = {
+            id: 0,
+            originalTitle: bookd['originalTitle'],
+            author: bookd['author'],
+            isbn10: bookd['isbn10']
+          };
+          newBooks.push(book);
+        });
+        this.dataService.addBooks(newBooks)
+          .subscribe((data: Book) => this.loadBooks());
+      }
+    }
+  }
 }

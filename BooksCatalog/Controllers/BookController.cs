@@ -76,6 +76,16 @@ namespace BooksCatalog.Controllers
             return Ok(_bookService.Get(id));
         }
 
+        [HttpPost("/api/books/addbooks")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult AddBooks(Book[] books)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var count = _bookService.Add(books);
+            return Ok(count);
+        }
+
         /// <summary>
         /// Update book
         /// </summary>
